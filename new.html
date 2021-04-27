@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="pred"></div>
+    <input type="number" min="0" max="29" id="sym1" /><br />
+    <input type="number" min="0" max="42" id="sym2" /><br />
+    <input type="number" min="0" max="45" id="sym3" /><br />
+    <button type="button" onclick="submit()">Predicton</button>
+    <script>
+      function submit() {
+        var s1 = document.getElementById("sym1").value;
+        var s2 = document.getElementById("sym2").value;
+        var s3 = document.getElementById("sym3").value;
+        var data = { symptom1: s1, symptom2: s2, symptom3: s3 };
+        console.log(data);
+        var result = document.getElementById("pred");
+        fetch("http://127.0.0.1:8000/predict", {
+          method: "POST",
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data.prediction);
+            result.innerHTML = data.prediction;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    </script>
+  </body>
+</html>
